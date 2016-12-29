@@ -114,5 +114,29 @@ class EventEmitterTests: XCTestCase {
         }
     }
     
-    // TODO: Test usage of parameter passed on some events.
+    func testThatParameterIsNilWhenNotGiven() {
+        let emitter = EventEmitter<Event>()
+
+        var ourEventData:Any? = 1
+        
+        emitter.on(e: .event1) {  eventData in
+            ourEventData = eventData
+        }
+        
+        emitter.emit(e: .event1)
+        XCTAssert(ourEventData == nil)
+    }
+    
+    func testThatParameterHasCorrectValueWhenGiven() {
+        let emitter = EventEmitter<Event>()
+
+        var ourEventData:Any? = 1
+        
+        emitter.on(e: .event1) {  eventData in
+            ourEventData = eventData
+        }
+        
+        emitter.emit(e: .event1, eventData: 2)
+        XCTAssert(ourEventData! as! Int == 2)
+    }
 }
